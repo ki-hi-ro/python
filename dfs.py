@@ -1,32 +1,27 @@
-# 2Dグリッド上で、どこからスタートしても良い
-# DFSで最大合計値を求める
-
 grid = [
-    [5, 1, 3],
-    [2, 9, 4],
-    [6, 7, 8]
+    [1, 5],
+    [0, 9]
 ]
 
 H, W = len(grid), len(grid[0])
 directions = [(1,0), (-1,0), (0,1), (0,-1)]
 
-def dfs(y, x, visited):
-    total = grid[y][x]
-    max_add = 0
-
-    for dy, dx in directions:
-        ny, nx = y + dy, x + dx
-        if 0 <= ny < H and 0 <= nx < W and (ny, nx) not in visited:
-            add = dfs(ny, nx, visited | {(ny, nx)})
-            max_add = max(max_add, add)
-
-    return total + max_add
-
 max_score = 0
+best_path = []
 
+print("=== 全パターン ===")
 for y in range(H):
     for x in range(W):
-        score = dfs(y, x, {(y, x)})
-        max_score = max(max_score, score)
+        start = grid[y][x]
+        for dy, dx in directions:
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < H and 0 <= nx < W:
+                score = start + grid[ny][nx]
+                path = [(y, x), (ny, nx)]
+                print(f"{path} → 合計={score}")
+                if score > max_score:
+                    max_score = score
+                    best_path = path
 
-print("最大合計:", max_score)
+print("\n🏆 最大合計:", max_score)
+print("通った座標:", best_path)
