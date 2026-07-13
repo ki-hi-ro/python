@@ -2,7 +2,10 @@ import requests
 
 API_URL = "https://ki-hi-ro.com/wp-json/wp/v2/posts"
 OUTPUT_FILE = "wp_article_urls.txt"
-START_DATE = "2026-05-27T00:00:00"
+
+# 2025年11月6日〜2026年5月29日を含める
+AFTER_DATE = "2025-11-05T23:59:59"
+BEFORE_DATE = "2026-05-30T00:00:00"
 
 
 def fetch_all_post_urls() -> list[str]:
@@ -14,7 +17,8 @@ def fetch_all_post_urls() -> list[str]:
             API_URL,
             params={
                 "status": "publish",
-                "after": START_DATE,
+                "after": AFTER_DATE,
+                "before": BEFORE_DATE,
                 "per_page": 100,
                 "page": page,
                 "orderby": "date",
